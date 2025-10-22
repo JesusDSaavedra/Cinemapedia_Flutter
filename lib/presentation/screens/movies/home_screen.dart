@@ -1,16 +1,19 @@
-import 'package:cinemapedia/config/constants/enviroments.dart';
-import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
+import 'package:cinemapedia/presentation/providers/providers.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatelessWidget {
-  static final name = 'home-screen';
+  static const name = 'home-screen';
 
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _HomeView();
+    return const Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomeBottomNavigationbar(),
+    );
   }
 }
 
@@ -32,15 +35,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final moviesSlideshow = ref.watch(moviesSlideshowProvider);
 
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: nowPlayingMovies.length,
-        itemBuilder: (context, index) {
-          final movie = nowPlayingMovies[index];
-          return ListTile(title: Text(movie.title));
-        },
-      ),
+    return Column(
+      children: [
+        CustomAppbar(),
+
+        MoviesSlideshow(movies: moviesSlideshow),
+
+        MoviesHorizontalListview(
+          movies: nowPlayingMovies,
+          title: 'En cines',
+          subtitle: 'Lunes 20',
+          loadNextPage: ref
+              .read(nowPlayingMoviesProvider.notifier)
+              .loadNextPage,
+        ),
+      ],
     );
   }
 }

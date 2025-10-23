@@ -47,12 +47,12 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: 355,
       child: Column(
         children: [
           if (widget.title != null || widget.subtitle != null)
             _Title(title: widget.title, subtitle: widget.subtitle),
-
+          SizedBox(height: 8),
           Expanded(
             flex: 1,
             child: ListView.builder(
@@ -61,7 +61,7 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
               physics: BouncingScrollPhysics(),
               itemCount: widget.movies.length,
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
             ),
           ),

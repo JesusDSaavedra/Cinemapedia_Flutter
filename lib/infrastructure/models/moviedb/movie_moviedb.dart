@@ -25,7 +25,7 @@ class MovieMovieDB {
   final String overview;
   final double popularity;
   final String posterPath;
-  final DateTime releaseDate;
+  final DateTime? releaseDate;
   final String title;
   final bool video;
   final double voteAverage;
@@ -60,8 +60,9 @@ class MovieMovieDB {
     "overview": overview,
     "popularity": popularity,
     "poster_path": posterPath,
-    "release_date":
-        "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
+    "release_date": releaseDate != null
+        ? "${releaseDate?.year.toString().padLeft(4, '0')}-${releaseDate?.month.toString().padLeft(2, '0')}-${releaseDate?.day.toString().padLeft(2, '0')}"
+        : null,
     "title": title,
     "video": video,
     "vote_average": voteAverage,

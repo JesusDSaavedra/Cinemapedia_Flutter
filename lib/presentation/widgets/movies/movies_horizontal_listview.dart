@@ -48,7 +48,7 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 355,
+      height: 370,
       child: Column(
         children: [
           if (widget.title != null || widget.subtitle != null)
@@ -80,67 +80,83 @@ class _Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //* Image
-          SizedBox(
-            width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                width: 150,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    Padding(
-                      padding: EdgeInsetsGeometry.all(8.0),
-                      child: CircularProgressIndicator(),
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+        side: BorderSide(color: Colors.black54),
+      ),
+      elevation: 0,
+      borderOnForeground: true,
+      child: Padding(
+        padding: EdgeInsetsGeometry.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //* Image
+            SizedBox(
+              width: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(20),
+                child: Image.network(
+                  movie.posterPath,
+                  width: 150,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress != null) {
+                      Padding(
+                        padding: EdgeInsetsGeometry.all(8.0),
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () => context.push('/movie/${movie.id}'),
+                      child: FadeIn(child: child),
                     );
-                  }
-                  return GestureDetector(
-                    onTap: () => context.push('/movie/${movie.id}'),
-                    child: FadeIn(child: child),
-                  );
-                },
+                  },
+                ),
               ),
             ),
-          ),
 
-          SizedBox(height: 5),
+            SizedBox(height: 5),
 
-          //* title
-          SizedBox(
-            width: 150,
-            child: Text(movie.title, maxLines: 2, style: textStyle.titleSmall),
-          ),
-
-          //* raiting
-          SizedBox(
-            width: 150,
-            child: Row(
-              children: [
-                Icon(Icons.star_half_outlined, color: Colors.amber.shade800),
-                SizedBox(width: 3),
-                Text(
-                  movie.voteAverage.toStringAsFixed(1),
-                  style: textStyle.bodyMedium!.copyWith(
-                    color: Colors.amber.shade800,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  HumanFormats.humanReadbleNumber(movie.popularity),
-                  style: textStyle.bodySmall,
-                ),
-              ],
+            //* title
+            SizedBox(
+              width: 150,
+              child: Text(
+                movie.title,
+                maxLines: 2,
+                style: textStyle.titleSmall,
+              ),
             ),
-          ),
-        ],
+
+            Spacer(),
+
+            //* raiting
+            SizedBox(
+              width: 150,
+              child: Row(
+                children: [
+                  Icon(Icons.star_half_outlined, color: theme.primaryColor),
+                  SizedBox(width: 3),
+                  Text(
+                    movie.voteAverage.toStringAsFixed(1),
+                    style: textStyle.bodyMedium!.copyWith(
+                      color: theme.primaryColor,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    HumanFormats.humanReadbleNumber(movie.popularity),
+                    style: textStyle.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

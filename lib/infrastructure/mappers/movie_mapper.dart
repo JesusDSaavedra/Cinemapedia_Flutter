@@ -12,7 +12,9 @@ class MovieMapper {
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
-    overview: moviedb.overview,
+    overview: moviedb.overview != ''
+        ? moviedb.overview
+        : 'La película "${moviedb.title}" no tiene descripción.',
     popularity: moviedb.popularity,
     posterPath: moviedb.posterPath != ''
         ? 'https://image.tmdb.org/t/p/original/${moviedb.posterPath}'
@@ -32,7 +34,9 @@ class MovieMapper {
     id: movie.id,
     originalLanguage: movie.originalLanguage,
     originalTitle: movie.originalTitle,
-    overview: movie.overview,
+    overview: movie.overview != ''
+        ? movie.overview
+        : 'La película "${movie.title}" no tiene descripción.',
     popularity: movie.popularity,
     posterPath: movie.posterPath != ''
         ? 'https://image.tmdb.org/t/p/original/${movie.posterPath}'

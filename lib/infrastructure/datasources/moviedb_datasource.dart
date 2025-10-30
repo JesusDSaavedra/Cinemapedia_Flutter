@@ -1,11 +1,11 @@
-import 'package:cinemapedia/infrastructure/models/models.dart';
 import 'package:dio/dio.dart';
-
 import 'package:cinemapedia/config/constants/enviroments.dart';
-import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 
-import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+
+import 'package:cinemapedia/infrastructure/models/models.dart';
+import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
@@ -74,5 +74,15 @@ class MoviedbDatasource extends MoviesDatasource {
     final movieDetails = MovieDetails.fromJson(response.data);
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
     return movie;
+  }
+
+  @override
+  Future<List<Movie>> searchMovies(String query) async {
+    if (query.isEmpty) return [];
+    final response = await dio.get(
+      '/search/movie',
+      queryParameters: {'query': query},
+    );
+    return _jsonToMovies(response.data);
   }
 }

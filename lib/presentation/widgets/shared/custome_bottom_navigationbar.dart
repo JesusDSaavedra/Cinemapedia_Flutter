@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomeBottomNavigationbar extends StatelessWidget {
-  const CustomeBottomNavigationbar({super.key});
+  final StatefulNavigationShell navigationShell;
+  const CustomeBottomNavigationbar({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class CustomeBottomNavigationbar extends StatelessWidget {
           label: 'Favoritos',
         ),
       ],
+      currentIndex: navigationShell.currentIndex,
+      onTap: (int index) => navigationShell.goBranch(index),
     );
   }
 }

@@ -103,6 +103,7 @@ class _Slide extends StatelessWidget {
                 child: Image.network(
                   movie.posterPath,
                   width: 150,
+                  height: 220,
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
